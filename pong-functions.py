@@ -6,35 +6,30 @@ wn.bgcolor('pink')
 wn.setup(width=800, height=600)
 wn.tracer(0)
 
-# Ball
-ball = turtle.Turtle()
-ball.speed(0)
-ball.shape("square")
-ball.color("white")
-ball.penup()
-ball.goto(0, 0)
-ball.dx = 1
-ball.dy = 1
-
-# Paddle_a
-paddle_a = turtle.Turtle()
-paddle_a.speed(0)
-paddle_a.shape("square")
-paddle_a.color("white")
-paddle_a.shapesize(stretch_len=1, stretch_wid=5)
-paddle_a.penup()
-paddle_a.goto(-350, 0)
-
-# Paddle_b
-paddle_b = turtle.Turtle()
-paddle_b.speed(0)
-paddle_b.shape("square")
-paddle_b.color("white")
-paddle_b.shapesize(stretch_len=1, stretch_wid=5)
-paddle_b.penup()
-paddle_b.goto(350, 0)
 
 # Function
+def create_ball():
+    ball = turtle.Turtle()
+    ball.speed(0)
+    ball.shape("square")
+    ball.color("white")
+    ball.penup()
+    ball.goto(0, 0)
+    ball.dx = 0.15
+    ball.dy = 0.15
+    return ball
+
+
+def create_paddle(x, y):
+    paddle = turtle.Turtle()
+    paddle.speed(0)
+    paddle.shape("square")
+    paddle.color("white")
+    paddle.shapesize(stretch_len=1, stretch_wid=5)
+    paddle.penup()
+    paddle.goto(x, y)
+    return paddle
+
 
 def paddle_move(paddle, ymove):
     y = paddle.ycor()
@@ -57,6 +52,10 @@ def paddle_b_up():
 def paddle_b_down():
     paddle_move(paddle_b, -20)
 
+
+ball = create_ball()
+paddle_a = create_paddle(-350, 0)
+paddle_b = create_paddle(350, 0)
 
 wn.listen()
 wn.onkeypress(paddle_a_up, "w")
