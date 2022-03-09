@@ -15,8 +15,8 @@ def create_ball():
     ball.color("white")
     ball.penup()
     ball.goto(0, 0)
-    ball.dx = 0.15
-    ball.dy = 0.15
+    ball.dx = 0.05
+    ball.dy = 0.05
     return ball
 
 
@@ -86,4 +86,10 @@ while True:
 
     if ball.xcor() < -390:
         ball.goto(0, 0)
+        ball.dx *= -1
+
+
+# Paddle and ball collisions
+    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -40):
+        ball.setx(340)
         ball.dx *= -1
