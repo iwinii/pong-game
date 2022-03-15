@@ -1,4 +1,7 @@
 import turtle
+import winsound
+import os
+import platform
 
 wn = turtle.Screen()
 wn.title("Pong by Iza & Karol")
@@ -49,6 +52,11 @@ pen.write("Player A:  0  Player B: 0", align="center", font=("Courier", 24, "nor
 
 
 # Function
+def play_bounce_sound():
+    if platform.system() == 'Windows':
+        winsound.PlaySound("bounce.wav", winsound.SND_ASYNC)
+
+    pass
 
 def paddle_move(paddle, ymove):
     y = paddle.ycor()
@@ -90,10 +98,12 @@ while True:
     if ball.ycor() > 290:
         ball.sety(290)
         ball.dy *= -1
+        play_bounce_sound()
 
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
+        play_bounce_sound()
 
     if ball.xcor() > 390:
         ball.goto(0, 0)
@@ -124,8 +134,17 @@ while True:
             ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() - 40):
         ball.setx(340)
         ball.dx *= -1
+        play_bounce_sound()
 
     if (ball.xcor() < -340 and ball.xcor() > -350) and (
             ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() - 40):
         ball.setx(-340)
         ball.dx *= -1
+        play_bounce_sound()
+
+    # AI Player
+    if paddle_b.ycor() < ball.ycor() and abs(paddle_b.ycor() - ball.ycor()) > 10:
+        paddle_b_up()
+
+    elif paddle_b.ycor() > ball.ycor() and abs(paddle_b.ycor() - ball.ycor()) > 10:
+        paddle_b_down()
