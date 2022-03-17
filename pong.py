@@ -20,8 +20,18 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 1
-ball.dy = 1
+ball.dx = 0.5
+ball.dy = 0.5
+
+# Ball
+ball2 = turtle.Turtle()
+ball2.speed(0)
+ball2.shape("square")
+ball2.color("green")
+ball2.penup()
+ball2.goto(0, 0)
+ball2.dx = -0.5
+ball2.dy = 0.5
 
 # Paddle_a
 paddle_a = turtle.Turtle()
@@ -94,6 +104,10 @@ while True:
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
+    # Move the ball
+    ball2.setx(ball2.xcor() + ball2.dx)
+    ball2.sety(ball2.ycor() + ball2.dy)
+
     # Border checking
     if ball.ycor() > 290:
         ball.sety(290)
@@ -119,6 +133,29 @@ while True:
         pen.clear()
         pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
 
+    if ball2.ycor() > 290:
+        ball2.sety(290)
+        ball2.dy *= -1
+        play_bounce_sound()
+
+    if ball2.ycor() < -290:
+        ball2.sety(-290)
+        ball2.dy *= -1
+        play_bounce_sound()
+
+    if ball2.xcor() > 390:
+        ball2.goto(0, 0)
+        ball2.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write("Player A:  {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
+    if ball2.xcor() < -390:
+        ball2.goto(0, 0)
+        ball2.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write("Player A: {}  Player B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
 
     if paddle_a.ycor() > 250:
         paddle_a.sety(250)
@@ -142,9 +179,28 @@ while True:
         ball.dx *= -1
         play_bounce_sound()
 
+    if (ball2.xcor() > 340 and ball2.xcor() < 350) and (
+                ball2.ycor() < paddle_b.ycor() + 40 and ball2.ycor() > paddle_b.ycor() - 40):
+            ball2.setx(340)
+            ball.dx *= -1
+            play_bounce_sound()
+
+    if (ball2.xcor() < -340 and ball2.xcor() > -350) and (
+                ball2.ycor() < paddle_a.ycor() + 40 and ball2.ycor() > paddle_a.ycor() - 40):
+            ball2.setx(-340)
+            ball2.dx *= -1
+            play_bounce_sound()
+
     # AI Player
-    if paddle_b.ycor() < ball.ycor() and abs(paddle_b.ycor() - ball.ycor()) > 10:
+    if ball.xcor() > ball2.xcor():
+        if paddle_b.ycor() < ball.ycor() and abs(paddle_b.ycor() - ball.ycor()) > 10:
         paddle_b_up()
 
-    elif paddle_b.ycor() > ball.ycor() and abs(paddle_b.ycor() - ball.ycor()) > 10:
+        elif paddle_b.ycor() > ball.ycor() and abs(paddle_b.ycor() - ball.ycor()) > 10:
+        paddle_b_down()
+    else:
+        if paddle_b.ycor() < ball2.ycor() and abs(paddle_b.ycor() - ball2.ycor()) > 10:
+        paddle_b_up()
+
+        elif paddle_b.ycor() > ball2.ycor() and abs(paddle_b.ycor() - ball2.ycor()) > 10:
         paddle_b_down()
